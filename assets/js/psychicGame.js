@@ -1,7 +1,7 @@
   var compChoices = "abcdefghijklmnopqrstuvwxyz";
   var wins = 0;
   var losses = 0;
-  var triesRemaining = 10;
+  var triesRemaining = 9;
   var compGuess = compChoices.charAt(Math.floor(Math.random() * compChoices.length));
   //An empty array to start for userguesses
   var userGuesses = [];
@@ -14,19 +14,20 @@
   var triesRemEl = document.getElementById('triesRemaining');
   
   var reset = function() {
-    triesRemaining = 10;
+    triesRemaining = 9;
     userGuesses = [];
     compGuess = compChoices.charAt(Math.floor(Math.random() * compChoices.length));
   };
 
   var runGame = function(userGuess, compGuess) {
     console.log(compGuess);
-    while (triesRemaining > 0 && userGuess !== compGuess) {
+    
+    while(triesRemaining > 0 && userGuess !== compGuess) {
       userGuesses = userGuesses + " " + userGuess;
       return triesRemaining--;
     }
 
-    if (triesRemaining === 0) {
+    if(triesRemaining === 0) {
       alert ("Sorry you lost");
       reset();
       return losses++;
@@ -39,7 +40,7 @@
     }
   };
 
-  /*Another possible way to run the game with nested if statements.  
+  /*Another possible way to run the game with nested if statements... but you said they were bad.
 
   var runGame = function(userGuess, compGuess) {  
     console.log(compGuess); 
@@ -64,14 +65,19 @@
     }
   };
 */
-  
-  //When you hit a key, it runs the game and ties in the variables with html elements
+ 
+  //When you hit a key, it checks to make sure its a letter first then runs the game and ties in the variables with html elements.  If its not a letter, it alerts you.
   document.onkeyup = function(event) {
-    var userGuess = event.key;
-    runGame(userGuess, compGuess);
-    usGuessesEl.textContent = userGuesses;
-    winsEl.textContent = wins;
-    lossesEl.textContent = losses;
-    triesRemEl.textContent = triesRemaining;
+    var userGuess = event.key.toLowerCase();
+    if(event.keyCode <= 90 && event.keyCode >= 65) { 
+      runGame(userGuess, compGuess);
+      usGuessesEl.textContent = userGuesses;
+      winsEl.textContent = wins;
+      lossesEl.textContent = losses;
+      triesRemEl.textContent = triesRemaining;
+    } 
+    else {
+      alert("Please select a letter");
+    }
   };
    
